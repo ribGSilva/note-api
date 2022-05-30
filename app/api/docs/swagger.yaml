@@ -1,0 +1,73 @@
+definitions:
+  handler.Error:
+    properties:
+      field:
+        example: name
+        type: string
+      messsaging:
+        type: string
+    type: object
+  note.Note:
+    properties:
+      createdAt:
+        example: "2006-01-02T15:04:05Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      text:
+        example: my note text
+        type: string
+      title:
+        example: my note
+        type: string
+      updatedAt:
+        example: "2006-01-02T15:04:05Z"
+        type: string
+    type: object
+info:
+  contact:
+    name: Gabriel Ribeiro Silva
+  description: Service to store handle notes.
+  title: Note API
+  version: "1.0"
+paths:
+  /v1/healthcheck:
+    get:
+      description: Check if ist is running
+      responses:
+        "200":
+          description: ""
+      summary: Check if ist is running
+      tags:
+      - Healthcheck
+  /v1/notes/{id}:
+    get:
+      description: Find a notes using its id
+      parameters:
+      - description: Note id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/note.Note'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/handler.Error'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.Error'
+      summary: Find a notes
+      tags:
+      - Note
+swagger: "2.0"

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-messaging-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notes-messaging-pod
+  template:
+    metadata:
+      labels:
+        app: notes-messaging-pod
+    spec:
+      containers:
+        - name: notes-messaging-pod
+          image: notes-messaging:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: HTTP_PORT
+              value: "8080"
+            - name: MONGO_CONNECTION_URL
+              value: ""
+            - name: REDIS_CONNECTION_URL
+              value: ""
+            - name: NEW_RELIC_LICENCE
+              value: ""
+            - name: NEW_RELIC_ENABLED
+              value: f
+            - name: REDIS_PASS
+              value: ""
+            - name: IDEMPOTENCY_ENABLED
+              value: t
+            - name: SWAGGER_HOST
+              value: ""
+            - name: GIN_MODE
+              value: "release"
+          livenessProbe:
+            httpGet:
+              path: /v1/healthcheck
+              port: http
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /v1/healthcheck
+              port: http
+            initialDelaySeconds: 5
+          resources:
+            limits:
+              cpu: 150m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 80Mi

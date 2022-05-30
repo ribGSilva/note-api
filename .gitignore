@@ -1,10 +1,9 @@
 # Binaries for programs and plugins
-*.exe
 *.exe~
 *.dll
 *.so
 *.dylib
-
+.DS_Store
 # Test binary, built with `go test -c`
 *.test
 
@@ -13,3 +12,9 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+tmp/
+
+.idea
+
+__debug_bin

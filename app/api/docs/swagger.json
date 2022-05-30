@@ -1,0 +1,110 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Service to store handle notes.",
+        "title": "Note API",
+        "contact": {
+            "name": "Gabriel Ribeiro Silva"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/v1/healthcheck": {
+            "get": {
+                "description": "Check if ist is running",
+                "tags": [
+                    "Healthcheck"
+                ],
+                "summary": "Check if ist is running",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/v1/notes/{id}": {
+            "get": {
+                "description": "Find a notes using its id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Find a notes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Note id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/note.Note"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handler.Error"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.Error": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "type": "string",
+                    "example": "name"
+                },
+                "messsaging": {
+                    "type": "string"
+                }
+            }
+        },
+        "note.Note": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string",
+                    "example": "2006-01-02T15:04:05Z"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "text": {
+                    "type": "string",
+                    "example": "my note text"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "my note"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2006-01-02T15:04:05Z"
+                }
+            }
+        }
+    }
+}

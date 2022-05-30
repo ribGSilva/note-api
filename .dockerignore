@@ -1,0 +1,11 @@
+.idea
+.git
+.env
+.dockerignore
+.gitignore
+.air.debug.toml
+.air.toml
+Dockerfile
+makefile
+README.md
+tmp/
