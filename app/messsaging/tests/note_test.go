@@ -10,8 +10,8 @@ import (
 	"github.com/ribgsilva/note-api/app/messsaging/consumers/v1/notes"
 	"github.com/ribgsilva/note-api/business/v1/note"
 	"github.com/ribgsilva/note-api/persistence/v1/schema"
-	"github.com/ribgsilva/note-api/platform/platform/env"
-	"github.com/ribgsilva/note-api/platform/platform/logger"
+	env2 "github.com/ribgsilva/note-api/platform/env"
+	"github.com/ribgsilva/note-api/platform/logger"
 	"github.com/ribgsilva/note-api/sys"
 	"gocloud.dev/pubsub"
 	"gocloud.dev/pubsub/mempubsub"
@@ -40,16 +40,16 @@ func TestNote(t *testing.T) {
 
 	// =======================================================================================================
 	// Setup configs
-	sys.Configs.Database.ConnectionURL = env.OrDefault(log, "DATABASE_CONNECTION_URL", "localhost:3306")
-	sys.Configs.Database.PingTimeout = env.DurationDefault(log, "DATABASE_PING_TIMEOUT", "2s")
-	sys.Configs.Database.OperationTimeout = env.DurationDefault(log, "DATABASE_OPERATION_TIMEOUT", "5s")
+	sys.Configs.Database.ConnectionURL = env2.OrDefault(log, "DATABASE_CONNECTION_URL", "localhost:3306")
+	sys.Configs.Database.PingTimeout = env2.DurationDefault(log, "DATABASE_PING_TIMEOUT", "2s")
+	sys.Configs.Database.OperationTimeout = env2.DurationDefault(log, "DATABASE_OPERATION_TIMEOUT", "5s")
 	//sys.Configs.Cache.ConnectionURL = env.OrDefault(log, "CACHE_CONNECTION_URL", "localhost:6379")
 	sys.Configs.Cache.ConnectionURL = s.Addr()
-	sys.Configs.Cache.User = env.OrDefault(log, "CACHE_USER", "")
-	sys.Configs.Cache.Pass = env.OrDefault(log, "CACHE_PASS", "")
-	sys.Configs.Cache.PingTimeout = env.DurationDefault(log, "CACHE_PING_TIMEOUT", "2s")
-	sys.Configs.Cache.OperationTimeout = env.DurationDefault(log, "CACHE_PING_TIMEOUT", "10s")
-	sys.Configs.Cache.CacheTTL = env.DurationDefault(log, "CACHE_CACHE_TTL", "24h")
+	sys.Configs.Cache.User = env2.OrDefault(log, "CACHE_USER", "")
+	sys.Configs.Cache.Pass = env2.OrDefault(log, "CACHE_PASS", "")
+	sys.Configs.Cache.PingTimeout = env2.DurationDefault(log, "CACHE_PING_TIMEOUT", "2s")
+	sys.Configs.Cache.OperationTimeout = env2.DurationDefault(log, "CACHE_PING_TIMEOUT", "10s")
+	sys.Configs.Cache.CacheTTL = env2.DurationDefault(log, "CACHE_CACHE_TTL", "24h")
 
 	// =======================================================================================================
 	// Setup resources
@@ -118,7 +118,7 @@ func TestNote(t *testing.T) {
 	defer func() {
 		_ = topic.Shutdown(context.Background())
 	}()
-	subscription := mempubsub.NewSubscription(topic, 10*time.Second)
+	subscription := mempubsub.NewSubscription(topic, 1*time.Second)
 
 	defer func() {
 		stdCtx, stdCancel := context.WithTimeout(context.Background(), sys.Configs.Messaging.ShutdownTimeout)

@@ -20,8 +20,8 @@ func Consume(ctx context.Context, sub *pubsub.Subscription, maxWorkers int) erro
 			break
 		}
 
+		workers <- 1
 		go func(m *pubsub.Message) {
-			workers <- 1
 			defer func() { <-workers }()
 			defer m.Ack()
 

@@ -2,7 +2,7 @@ package healthcheck
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ribgsilva/note-api/platform/platform/web/handler"
+	"github.com/ribgsilva/note-api/platform/web/handler"
 	"net/http"
 )
 

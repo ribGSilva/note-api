@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ribgsilva/note-api/app/api/handlers/v1/healthcheck"
 	"github.com/ribgsilva/note-api/app/api/handlers/v1/notes"
-	"github.com/ribgsilva/note-api/platform/platform/web/handler"
+	"github.com/ribgsilva/note-api/platform/web/handler"
 )
 
 func MapDefaults(r *gin.Engine) {
