@@ -9,17 +9,19 @@ PROJECT_NAME := note-api
 # =====================================
 # Develop
 
+app=api
+
 debug:
 	go install github.com/go-delve/delve/cmd/dlv@latest
 	go install github.com/cosmtrek/air@latest
-	air -c .air.'$1'.debug.toml
+	air -c .air.$(app).debug.toml
 
 run:
 	go install github.com/cosmtrek/air@latest
-	air -c .air.'$1'.toml
+	air -c .air.$(app).toml
 
 tests:
-	go test ./app/'$1'/tests
+	go test ./app/$(app)/tests
 
 tidy:
 	go mod tidy

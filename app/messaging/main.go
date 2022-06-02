@@ -11,8 +11,8 @@ import (
 	"github.com/newrelic/go-agent/v3/integrations/nrgin"
 	"github.com/newrelic/go-agent/v3/newrelic"
 	"github.com/ribgsilva/note-api/app/api/handlers"
-	"github.com/ribgsilva/note-api/app/messsaging/consumers/v1/notes"
-	env2 "github.com/ribgsilva/note-api/platform/env"
+	"github.com/ribgsilva/note-api/app/messaging/consumers/v1/notes"
+	"github.com/ribgsilva/note-api/platform/env"
 	"github.com/ribgsilva/note-api/platform/logger"
 	"github.com/ribgsilva/note-api/sys"
 	"go.uber.org/automaxprocs/maxprocs"
@@ -54,24 +54,24 @@ func run(log *zap.SugaredLogger) error {
 
 	// =======================================================================================================
 	// Setup configs
-	sys.Configs.Database.ConnectionURL = env2.OrDefault(log, "DATABASE_CONNECTION_URL", "root:admin@localhost:3306/note")
-	sys.Configs.Database.PingTimeout = env2.DurationDefault(log, "DATABASE_PING_TIMEOUT", "2s")
-	sys.Configs.Database.OperationTimeout = env2.DurationDefault(log, "DATABASE_OPERATION_TIMEOUT", "5s")
-	sys.Configs.Cache.ConnectionURL = env2.OrDefault(log, "CACHE_CONNECTION_URL", "localhost:6379")
-	sys.Configs.Cache.User = env2.OrDefault(log, "CACHE_USER", "")
-	sys.Configs.Cache.Pass = env2.OrDefault(log, "CACHE_PASS", "")
-	sys.Configs.Cache.PingTimeout = env2.DurationDefault(log, "CACHE_PING_TIMEOUT", "2s")
-	sys.Configs.Cache.OperationTimeout = env2.DurationDefault(log, "CACHE_PING_TIMEOUT", "10s")
-	sys.Configs.Cache.CacheTTL = env2.DurationDefault(log, "CACHE_CACHE_TTL", "24h")
-	sys.Configs.NewRelic.AppName = env2.OrDefault(log, "NEW_RELIC_APP_NAME", "person-api")
-	sys.Configs.NewRelic.Licence = env2.OrDefault(log, "NEW_RELIC_LICENCE", "")
-	sys.Configs.NewRelic.Enabled = env2.BoolDefault(log, "NEW_RELIC_ENABLED", "f")
-	sys.Configs.NewRelic.ConnectionTimeout = env2.DurationDefault(log, "NEW_RELIC_CONNECTION_TIMEOUT", "10s")
-	sys.Configs.NewRelic.ShutdownTimeout = env2.DurationDefault(log, "NEW_RELIC_SHUTDOWN_TIMEOUT", "10s")
-	sys.Configs.Messaging.TopicName = env2.Must(log, "MESSAGING_TOPIC_NAME")
-	sys.Configs.Messaging.MaxWorkers = env2.IntDefault(log, "MESSAGING_MAX_WORKERS", "1")
-	sys.Configs.Messaging.WaitTime = env2.DurationDefault(log, "MESSAGING_WAIT_TIME", "10s")
-	sys.Configs.Messaging.ShutdownTimeout = env2.DurationDefault(log, "MESSAGING_SHUTDOWN_TIMEOUT", "10s")
+	sys.Configs.Database.ConnectionURL = env.OrDefault(log, "DATABASE_CONNECTION_URL", "root:admin@localhost:3306/note")
+	sys.Configs.Database.PingTimeout = env.DurationDefault(log, "DATABASE_PING_TIMEOUT", "2s")
+	sys.Configs.Database.OperationTimeout = env.DurationDefault(log, "DATABASE_OPERATION_TIMEOUT", "5s")
+	sys.Configs.Cache.ConnectionURL = env.OrDefault(log, "CACHE_CONNECTION_URL", "localhost:6379")
+	sys.Configs.Cache.User = env.OrDefault(log, "CACHE_USER", "")
+	sys.Configs.Cache.Pass = env.OrDefault(log, "CACHE_PASS", "")
+	sys.Configs.Cache.PingTimeout = env.DurationDefault(log, "CACHE_PING_TIMEOUT", "2s")
+	sys.Configs.Cache.OperationTimeout = env.DurationDefault(log, "CACHE_PING_TIMEOUT", "10s")
+	sys.Configs.Cache.CacheTTL = env.DurationDefault(log, "CACHE_CACHE_TTL", "24h")
+	sys.Configs.NewRelic.AppName = env.OrDefault(log, "NEW_RELIC_APP_NAME", "person-api")
+	sys.Configs.NewRelic.Licence = env.OrDefault(log, "NEW_RELIC_LICENCE", "")
+	sys.Configs.NewRelic.Enabled = env.BoolDefault(log, "NEW_RELIC_ENABLED", "f")
+	sys.Configs.NewRelic.ConnectionTimeout = env.DurationDefault(log, "NEW_RELIC_CONNECTION_TIMEOUT", "10s")
+	sys.Configs.NewRelic.ShutdownTimeout = env.DurationDefault(log, "NEW_RELIC_SHUTDOWN_TIMEOUT", "10s")
+	sys.Configs.Messaging.TopicName = env.Must(log, "MESSAGING_TOPIC_NAME")
+	sys.Configs.Messaging.MaxWorkers = env.IntDefault(log, "MESSAGING_MAX_WORKERS", "1")
+	sys.Configs.Messaging.WaitTime = env.DurationDefault(log, "MESSAGING_WAIT_TIME", "10s")
+	sys.Configs.Messaging.ShutdownTimeout = env.DurationDefault(log, "MESSAGING_SHUTDOWN_TIMEOUT", "10s")
 
 	// =======================================================================================================
 	// Setup static resources

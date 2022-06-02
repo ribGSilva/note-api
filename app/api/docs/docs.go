@@ -85,7 +85,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "name"
                 },
-                "messsaging": {
+                "messaging": {
                     "type": "string"
                 }
             }
