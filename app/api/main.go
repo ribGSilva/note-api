@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/newrelic/go-agent/v3/integrations/nrgin"
 	"github.com/newrelic/go-agent/v3/newrelic"
 	"github.com/ribgsilva/note-api/app/api/docs"
@@ -22,8 +23,6 @@ import (
 	"os/signal"
 	"runtime"
 	"syscall"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 // @title Note API
@@ -59,9 +58,9 @@ func run(log *zap.SugaredLogger) error {
 	// =======================================================================================================
 	// Setup configs
 	sys.Configs.Http.Port = env.OrDefault(log, "HTTP_PORT", "8080")
-	sys.Configs.Http.ReadTimeout = env.DurationDefault(log, "HTTP_SHUTDOWN_TIMEOUT", "5s")
-	sys.Configs.Http.IdleTimeout = env.DurationDefault(log, "HTTP_SHUTDOWN_TIMEOUT", "120s")
-	sys.Configs.Http.WriteTimeout = env.DurationDefault(log, "HTTP_SHUTDOWN_TIMEOUT", "10s")
+	sys.Configs.Http.ReadTimeout = env.DurationDefault(log, "HTTP_READ_TIMEOUT", "5s")
+	sys.Configs.Http.IdleTimeout = env.DurationDefault(log, "HTTP_IDLE_TIMEOUT", "120s")
+	sys.Configs.Http.WriteTimeout = env.DurationDefault(log, "HTTP_WRITE_TIMEOUT", "10s")
 	sys.Configs.Http.ShutdownTimeout = env.DurationDefault(log, "HTTP_SHUTDOWN_TIMEOUT", "60s")
 	sys.Configs.Swagger.Protocol = env.OrDefault(log, "SWAGGER_PROTOCOL", "http")
 	sys.Configs.Swagger.Host = env.OrDefault(log, "SWAGGER_HOST", "localhost:"+sys.Configs.Http.Port)
