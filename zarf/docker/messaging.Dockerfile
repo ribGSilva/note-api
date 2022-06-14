@@ -21,15 +21,18 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o applicati
 
 FROM sonarsource/sonar-scanner-cli AS test_stage
 
+ARG SKIP_TESTS=false
 ARG SONAR_HOST_URL
 ARG SONAR_LOGIN
 
 COPY --from=build_stage /go/src/service/ ./
 
-RUN sonar-scanner \
+RUN if [ $SKIP_TESTS != true ]; \
+    then sonar-scanner \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_LOGIN \
-        -Dproject.settings=./sonar-project.properties
+        -Dproject.settings=./sonar-project.properties; \
+    fi;
 
 FROM scratch
 
