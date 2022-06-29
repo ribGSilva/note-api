@@ -9,9 +9,9 @@ require (
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/mattn/go-sqlite3 v1.14.14
 	github.com/newrelic/go-agent/v3 v3.0.0
 	github.com/newrelic/go-agent/v3/integrations/nrgin v1.1.2
-	github.com/proullon/ramsql v0.0.0-20220319205533-582afa8a5528
 	github.com/swaggo/gin-swagger v1.4.3
 	github.com/swaggo/swag v1.8.2
 	go.uber.org/automaxprocs v1.5.1

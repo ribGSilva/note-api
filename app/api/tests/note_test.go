@@ -10,7 +10,6 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/ribgsilva/note-api/app/api/handlers"
 	"github.com/ribgsilva/note-api/business/v1/note"
-	"github.com/ribgsilva/note-api/persistence/v1/schema"
 	"github.com/ribgsilva/note-api/platform/env"
 	"github.com/ribgsilva/note-api/platform/logger"
 	"github.com/ribgsilva/note-api/sys"
@@ -20,7 +19,7 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/proullon/ramsql/driver"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type NoteTests struct {
@@ -61,16 +60,16 @@ func TestNote(t *testing.T) {
 	// mysql
 	var db *sql.DB
 	if err := func() error {
-		mysqlDb, err := sql.Open("ramsql", "NoteTest")
+		database, err := sql.Open("sqlite3", ":memory:")
 		if err != nil {
 			return fmt.Errorf("error to connecto to database: %w", err)
 		}
 		dbCtx, dbCancel := context.WithTimeout(context.Background(), sys.Configs.Database.PingTimeout)
 		defer dbCancel()
-		if err := mysqlDb.PingContext(dbCtx); err != nil {
+		if err := database.PingContext(dbCtx); err != nil {
 			return fmt.Errorf("could not connect to database: %w", err)
 		}
-		db = mysqlDb
+		db = database
 		return nil
 	}(); err != nil {
 		t.Fatal(err)
@@ -107,12 +106,14 @@ func TestNote(t *testing.T) {
 	// =======================================================================================================
 	// Database setup
 
-	if err := schema.Create(context.Background()); err != nil {
-		t.Fatalf("sql.Exec: Error: %s\n", err)
-	}
-	defer schema.Drop(context.Background())
-
 	batch := []string{
+		`CREATE TABLE IF NOT EXISTS notes(
+			id INTEGER PRIMARY KEY,
+			title VARCHAR(100),
+			notes TEXT,
+			updatedAt DATETIME,
+			createdAt DATETIME
+		)`,
 		`INSERT INTO notes (title, notes, updatedAt, createdAt) VALUES ('my notes', 'my notes text', ?, ?)`,
 	}
 
